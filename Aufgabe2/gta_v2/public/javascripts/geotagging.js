@@ -105,7 +105,14 @@ class MapManager {
 function updateLocation() {
 	const locationHelper = new LocationHelper();
 	const location = LocationHelper.findLocation((location) => {
-		console.log(location);
+		const latitude = document.getElementById("latitude");
+		const longitude = document.getElementById("longitude");
+		const latitudeSearch = document.getElementById("latitudeSearch");
+		const longitudeSearch = document.getElementById("longitudeSearch");
+		latitude.value = location.latitude;
+		longitude.value = location.longitude;
+		latitudeSearch.value = location.latitude;
+		longitudeSearch.value = location.longitudeSearch;
 	});
 }
 
