@@ -103,8 +103,8 @@ class MapManager {
  * It is called once the page has been fully loaded.
  */
 function updateLocation() {
-	const locationHelper = new LocationHelper();
-	const location = LocationHelper.findLocation((location) => {
+	// Set latitude and longitude value
+	LocationHelper.findLocation((location) => {
 		const latitude = document.getElementById("latitude");
 		const longitude = document.getElementById("longitude");
 		const latitudeSearch = document.getElementById("latitudeSearch");
@@ -113,6 +113,11 @@ function updateLocation() {
 		longitude.value = location.longitude;
 		latitudeSearch.value = location.latitude;
 		longitudeSearch.value = location.longitudeSearch;
+		// Set map coordinates
+		const mapManager = new MapManager("wBgdLkzOFHqTwbkl2pF8NhPt5L0FupXY");
+		const mapUrl = mapManager.getMapUrl(location.latitude, location.longitude);
+		const mapView = document.getElementById("mapView");
+		mapView.src = mapUrl;
 	});
 }
 
