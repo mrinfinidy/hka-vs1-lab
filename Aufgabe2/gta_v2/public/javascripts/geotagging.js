@@ -103,7 +103,10 @@ class MapManager {
  * It is called once the page has been fully loaded.
  */
 function updateLocation() {
-
+	const locationHelper = new LocationHelper();
+	const location = LocationHelper.findLocation((location) => {
+		console.log(location);
+	});
 }
 
 
