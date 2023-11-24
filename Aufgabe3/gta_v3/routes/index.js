@@ -42,10 +42,14 @@ const GeoTagStore = require('../models/geotag-store');
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [ 
-    { name: 'Castle', latitude: 49.01379, longitude: 8.40435, hashtag: "#sight" },
-    { name: 'IWI', latitude: 49.01379, longitude: 8.390071, hashtag: "#edu" }
-  ] })
+  const geotagStore = new GeoTagStore();
+  geotagStore.popluateGeotagStore();
+  const taglist = geotagStore.getGeotags();
+  res.render('index', { taglist: taglist });
+  // res.render('index', { taglist: [ 
+  //   { name: 'Castle', latitude: 49.01379, longitude: 8.40435, hashtag: "#sight" },
+  //   { name: 'IWI', latitude: 49.01379, longitude: 8.390071, hashtag: "#edu" }
+  // ] })
 });
 
 /**
@@ -64,6 +68,12 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.post('/tagging', (req, res) => {
+  const geotagStore = new GeoTagStore();
+  const location = req.body;
+  const nearbyGeotags = geotagStore.getNearbyGeoTags(location);
+  res.render('index', { taglist: nearbyGeotags });
+});
 
 /**
  * Route '/discovery' for HTTP 'POST' requests.
@@ -82,5 +92,15 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.post(/discovery/, (req, res) => {
+  const { location, keyword } = req.body;
+  if (keyword === undefined) {    
+    const nearbyGeotags = GeoTagStore.getNearbyGeoTags(location);
+    res.render('index', { taglist: nearbyGeotags });
+  } else {
+    const nearbyGeotags = GeoTagStore.searchNearbyGeoTags(location, keyword);
+    res.render('index', { taglist: nearbyGeotags });
+  }
+});
 
 module.exports = router;
