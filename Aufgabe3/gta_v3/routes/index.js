@@ -42,7 +42,10 @@ const GeoTagStore = require('../models/geotag-store');
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  res.render('index', { taglist: [ 
+    { name: 'Castle', latitude: 49.01379, longitude: 8.40435, hashtag: "#sight" },
+    { name: 'IWI', latitude: 49.01379, longitude: 8.390071, hashtag: "#edu" }
+  ] })
 });
 
 /**
