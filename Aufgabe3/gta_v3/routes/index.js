@@ -21,6 +21,7 @@ const router = express.Router();
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTag = require('../models/geotag');
+const GeoTagExamples = require('../models/geotag-examples');
 
 /**
  * The module "geotag-store" exports a class GeoTagStore. 
@@ -42,10 +43,9 @@ const GeoTagStore = require('../models/geotag-store');
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  const geotagStore = new GeoTagStore();
-  geotagStore.popluateGeotagStore();
-  const taglist = geotagStore.getGeotags();
-  res.render('index', { taglist: taglist });
+    const geotagStore = new GeoTagStore();
+    const taglist = GeoTagExamples.tagList; geotagStore.popluateGeotagStore(taglist);
+  res.render('index', { taglist: geotagStore.getGeotags() });
   // res.render('index', { taglist: [ 
   //   { name: 'Castle', latitude: 49.01379, longitude: 8.40435, hashtag: "#sight" },
   //   { name: 'IWI', latitude: 49.01379, longitude: 8.390071, hashtag: "#edu" }
@@ -69,10 +69,12 @@ router.get('/', (req, res) => {
 
 // TODO: ... your code here ...
 router.post('/tagging', (req, res) => {
-  const geotagStore = new GeoTagStore();
+    const geotagStore = new GeoTagStore();
   const location = req.body;
   const nearbyGeotags = geotagStore.getNearbyGeoTags(location);
-  res.render('index', { taglist: nearbyGeotags });
+    const taglist = GeoTagExamples.tagList;
+    geotagStore.popluateGeotagStore(taglist);
+  res.render('index', { taglist: geotagStore.getGeotags() });
 });
 
 /**
@@ -93,13 +95,16 @@ router.post('/tagging', (req, res) => {
 
 // TODO: ... your code here ...
 router.post(/discovery/, (req, res) => {
+    const geotagStore = new GeoTagStore();
   const { location, keyword } = req.body;
   if (keyword === undefined) {    
-    const nearbyGeotags = GeoTagStore.getNearbyGeoTags(location);
-    res.render('index', { taglist: nearbyGeotags });
+    const nearbyGeotags = geotagStore.getNearbyGeoTags(location);
+      geotagStore.popluateGeotagStore(nearbyGeotags);
+    res.render('index', { taglist: geotagStore.getGeotags() });
   } else {
-    const nearbyGeotags = GeoTagStore.searchNearbyGeoTags(location, keyword);
-    res.render('index', { taglist: nearbyGeotags });
+    const nearbyGeotags = geotagStore.searchNearbyGeoTags(location, keyword);
+      geotagStore.popluateGeotagStore(nearbyGeotags);
+    res.render('index', { taglist: geotagStore.getGeotags() });
   }
 });
 

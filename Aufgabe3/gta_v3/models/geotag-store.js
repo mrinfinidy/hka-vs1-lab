@@ -68,8 +68,8 @@ class InMemoryGeoTagStore{
     return nearbyGeotags;
   }
 
-  popluateGeotagStore() {
-    const taglist = GeoTagExamples.tagList;
+  popluateGeotagStore(taglist) {
+    // const taglist = GeoTagExamples.tagList;
     for (const tag of taglist) {
       const geotag = new Geotag(tag[0], tag[1], tag[2], tag[3]);
       this.addGeoTag(geotag);
