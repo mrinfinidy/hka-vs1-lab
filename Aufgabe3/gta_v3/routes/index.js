@@ -31,6 +31,8 @@ const GeoTagExamples = require('../models/geotag-examples');
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
+const geoTagStore = new GeoTagStore();
+const taglist = GeoTagExamples.tagList; geoTagStore.popluateGeotagStore(taglist);
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -43,13 +45,7 @@ const GeoTagStore = require('../models/geotag-store');
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-    const geotagStore = new GeoTagStore();
-    const taglist = GeoTagExamples.tagList; geotagStore.popluateGeotagStore(taglist);
-  res.render('index', { taglist: geotagStore.getGeotags() });
-  // res.render('index', { taglist: [ 
-  //   { name: 'Castle', latitude: 49.01379, longitude: 8.40435, hashtag: "#sight" },
-  //   { name: 'IWI', latitude: 49.01379, longitude: 8.390071, hashtag: "#edu" }
-  // ] })
+  res.render('index', { taglist: geoTagStore.getGeotags() });
 });
 
 /**
@@ -69,12 +65,13 @@ router.get('/', (req, res) => {
 
 // TODO: ... your code here ...
 router.post('/tagging', (req, res) => {
-    const geotagStore = new GeoTagStore();
-  const location = req.body;
-  const nearbyGeotags = geotagStore.getNearbyGeoTags(location);
-    const taglist = GeoTagExamples.tagList;
-    geotagStore.popluateGeotagStore(taglist);
-  res.render('index', { taglist: geotagStore.getGeotags() });
+  const name = req.body.tagName;
+  const hashtag = req.body.hashtag;
+  const latitude = req.body.latitude;
+  const longitude = req.body.longitude;
+  const goetag = new GeoTag(name, latitude, longitude, hashtag);
+  geoTagStore.addGeoTag(goetag);
+  res.render('index', { taglist: geoTagStore.getGeotags() });
 });
 
 /**
@@ -94,18 +91,26 @@ router.post('/tagging', (req, res) => {
  */
 
 // TODO: ... your code here ...
-router.post(/discovery/, (req, res) => {
-    const geotagStore = new GeoTagStore();
-  const { location, keyword } = req.body;
-  if (keyword === undefined) {    
-    const nearbyGeotags = geotagStore.getNearbyGeoTags(location);
-      geotagStore.popluateGeotagStore(nearbyGeotags);
-    res.render('index', { taglist: geotagStore.getGeotags() });
-  } else {
-    const nearbyGeotags = geotagStore.searchNearbyGeoTags(location, keyword);
-      geotagStore.popluateGeotagStore(nearbyGeotags);
-    res.render('index', { taglist: geotagStore.getGeotags() });
+router.post('/discovery', (req, res) => {
+  const keyword = req.body.searchterm;
+  const latitude = req.body.latitudeSearch;
+  const longitude = req.body.longitudeSearch
+  const location = { latitude: latitude, longitude: longitude };
+  const nearbyGeotags = geoTagStore.searchNearbyGeoTags(location, keyword);
+
+  let nearbyGeotagsNames = [];
+  for (const geotag of nearbyGeotags) {
+    nearbyGeotagsNames.push(geotag.name);
   }
+
+  for (const geotag of geoTagStore.getGeotags()) {
+    if(!nearbyGeotagsNames.includes(geotag.name)) {
+      console.log("remove geotag: " + geotag.name);
+      geoTagStore.removeGeoTag(geotag.name);
+    }
+  }
+
+  res.render('index', { taglist: geoTagStore.getGeotags() });
 });
 
 module.exports = router;

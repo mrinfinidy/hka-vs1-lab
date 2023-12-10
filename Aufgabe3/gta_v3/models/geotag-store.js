@@ -39,7 +39,10 @@ class InMemoryGeoTagStore{
   }
 
   removeGeoTag(geotagName) {
-    this.getGeotags().filter(geotag => geotag.name !== geotagName);
+    const indexToRemove = this.getGeotags().findIndex(geotag => geotag.name === geotagName);
+    if (indexToRemove !== -1) {
+      this.getGeotags().splice(indexToRemove, 1);
+    }
   }
 
   getNearbyGeoTags(location) {
@@ -80,23 +83,23 @@ class InMemoryGeoTagStore{
 
 // Calculate distance of two locations using Haversine formula
 function calculateDistance(location1, location2) {
+    if ((location1.latitude === location2.latitude) && (location1.longitude === location2.longitude)) {
+    return 0;
+  }
   // Convert latitude and longitude from degrees to radians
-  const radLatitude1 = (Math.PI / 180) * location1.latitude;
-  const radLongitude1 = (Math.PI / 180) * location1.longitude;
-  const radLatitude2 = (Math.PI / 180) * location2.latitude;
-  const radLongitude2 = (Math.PI / 180) * location2.longitude;
-
-  const deltaLatitude = radLatitude2 - radLatitude1;
-  const deltaLongitude = radLongitude2 - radLongitude1;
-  const a = 
-    Math.sin(deltaLatitude / 2) ** 2 +
-    Math.cos(radLatitude1) * Math.cos(radLatitude2) * Math.sin(deltaLongitude / 2) ** 2;
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-  // Radius of the earth in meters
-  // in km: const radius = 6371;
-  const radius = 6371e3;
-  const distance = radius * c;
+  const radLatitude1 = Math.PI * location1.latitude / 180;
+  const radLatitude2 = Math.PI * location2.latitude / 180;
+  const theta = location1.longitude - location2.longitude;
+  const radTheta = Math.PI * theta / 180;
+  let distance = Math.sin(radLatitude1) * Math.sin(radLatitude2) + Math.cos(radLatitude1) * Math.cos(radLatitude2) * Math.cos(radTheta);
+  if (distance > 1) {
+    distance = 1;
+  }
+  distance = Math.acos(distance);
+  distance = distance * 180 / Math.PI;
+  distance = distance * 60 * 1.1515;
+  // Unit in km
+  distance = distance * 1.609344;
 
   return distance;
 }

@@ -8,14 +8,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeoTagApp</title>
-    <link rel="stylesheet" href="./stylesheets/style.css" />
+    <!--
+    <link rel="stylesheet" href="/public/stylesheets/style.css" />
+    -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
     <header class="header">
-        <img src="./images/location.png" class="header__image" alt="an image of a map and location">
+        <!--
+        <img src="/public/images/location.png" class="header__image" alt="an image of a map and location">
+        -->
         <h1 class="header__title">GeoTagApp</h1>
         <nav class="header__navigation">
             <a href="#">About</a> | <a href="#">Help</a> | <a href="/">Home</a>
@@ -30,13 +34,14 @@
 			    <fieldset class="tag-fieldset">
 			    	<legend>Add a new GeoTag</legend>
 			    	<label for="latitude">Latitude&colon;</label>
-			    	<input type="text" id="latitude" placeholder="49.014070" value="49.014070" readonly>
+			    	<input type="text" id="latitude" name="latitude" placeholder="49.014070" value="49.014070" readonly>
 			    	<label for="longitude">Longitude&colon;</label>
-			    	<input type="text" id="longitude" placeholder="8.40446" value="8.40446" readonly>
+			    	<input type="text" id="longitude" name="longitude" placeholder="8.40446" value="8.40446" readonly>
 			    	<label for="name">Name&colon;</label>
 			    	<input
 			    		type="text"
 			    		id="name"
+              name="tagName"
 			    		pattern="[A-Za-z]{1,10}"
 			    		placeholder="e.g. Karlsruhe"
 			    		required
@@ -45,6 +50,7 @@
 			    	<input 
 			    		type="text"
 			    		id="hashtag"
+              name="hashtag"
 			    		pattern="#[A-Za-z]{1,10}"
 			    		title="Hashtag must start with &apos;#&apos; followed by max. 10 letters"
 			    		placeholder="e.g. #Ka"
@@ -62,9 +68,9 @@
 			    <fieldset class="discovery-fieldset">
 			    	<legend>Search</legend>
 			    	<label for="searchterm">Search term or keywords&colon;</label>
-			    	<input type="text" id="searchterm" placeholder="e.g. Karlsruhe">
-			    	<input type="hidden" id="latitudeSearch" placeholder="49.014070" readonly>
-			    	<input type="hidden" id="longitudeSearch" placeholder="8.40446" readonly>
+			    	<input type="text" id="searchterm" name="searchterm" placeholder="e.g. Karlsruhe">
+			    	<input type="hidden" id="latitudeSearch" name="latitudeSearch" placeholder="49.014070" value="49.014070" readonly>
+			    	<input type="hidden" id="longitudeSearch" name="longitudeSearch" placeholder="8.40446" value="8.40446" readonly>
 			    	<input id="discovery-submit" type="submit" value="Search">
 			    </fieldset>
         </form>
@@ -79,7 +85,9 @@
             </div>
 
             <div class="discovery__map">
-                <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" />
+                <!--
+                <img src="/public//images/mapview.jpg" alt="a map with locations" id="mapView" />
+                -->
                 <span>Result map</span>
             </div>
         </div>
@@ -92,7 +100,9 @@
 	<!-- Load JavaScripts
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="./javascripts/geotagging.js"></script>
+    <!--
+    <script src="/public/javascripts/geotagging.js"></script>
+    -->
 </body>
 
 </html>

@@ -34,7 +34,7 @@ app.use(logger('dev'));
 
 // Set content processing
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 /**
  * VS1LAB:
