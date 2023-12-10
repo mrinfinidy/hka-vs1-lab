@@ -98,16 +98,22 @@ router.post('/discovery', (req, res) => {
   const location = { latitude: latitude, longitude: longitude };
   const nearbyGeotags = geoTagStore.searchNearbyGeoTags(location, keyword);
 
-  let nearbyGeotagsNames = [];
+  const nearbyGeotagsNames = [];
+  const geotagsToRemove = [];
   for (const geotag of nearbyGeotags) {
     nearbyGeotagsNames.push(geotag.name);
   }
 
+
+
   for (const geotag of geoTagStore.getGeotags()) {
     if(!nearbyGeotagsNames.includes(geotag.name)) {
-      console.log("remove geotag: " + geotag.name);
-      geoTagStore.removeGeoTag(geotag.name);
+      geotagsToRemove.push(geotag.name);
     }
+  }
+
+  for (const geotagName of geotagsToRemove) {
+    geoTagStore.removeGeoTag(geotagName);
   }
 
   res.render('index', { taglist: geoTagStore.getGeotags() });
