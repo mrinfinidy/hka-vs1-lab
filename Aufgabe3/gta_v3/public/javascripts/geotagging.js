@@ -112,7 +112,7 @@ function updateLocation() {
 		latitude.value = location.latitude;
 		longitude.value = location.longitude;
 		latitudeSearch.value = location.latitude;
-		longitudeSearch.value = location.longitudeSearch;
+		longitudeSearch.value = location.longitude;
 		// Set map coordinates
 		const mapManager = new MapManager("wBgdLkzOFHqTwbkl2pF8NhPt5L0FupXY");
 		const mapUrl = mapManager.getMapUrl(location.latitude, location.longitude);
