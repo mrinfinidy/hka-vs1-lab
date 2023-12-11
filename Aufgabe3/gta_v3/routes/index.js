@@ -33,6 +33,7 @@ const GeoTagExamples = require('../models/geotag-examples');
 const GeoTagStore = require('../models/geotag-store');
 const geoTagStore = new GeoTagStore();
 const taglist = GeoTagExamples.tagList; geoTagStore.popluateGeotagStore(taglist);
+const location = { latitude: 361, longitude: 361 }
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -45,7 +46,7 @@ const taglist = GeoTagExamples.tagList; geoTagStore.popluateGeotagStore(taglist)
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: geoTagStore.getGeotags() });
+  res.render('index', { location, taglist: geoTagStore.getGeotags() });
 });
 
 /**
@@ -71,7 +72,7 @@ router.post('/tagging', (req, res) => {
   const longitude = req.body.longitude;
   const goetag = new GeoTag(name, latitude, longitude, hashtag);
   geoTagStore.addGeoTag(goetag);
-  res.render('index', { taglist: geoTagStore.getGeotags() });
+  res.render('index', { location, taglist: geoTagStore.getGeotags() });
 });
 
 /**
@@ -116,7 +117,8 @@ router.post('/discovery', (req, res) => {
     geoTagStore.removeGeoTag(geotagName);
   }
 
-  res.render('index', { taglist: geoTagStore.getGeotags() });
+  console.log("location: ", location);
+  res.render('index', { location, taglist: geoTagStore.getGeotags() });
 });
 
 module.exports = router;

@@ -34,9 +34,9 @@
 			    <fieldset class="tag-fieldset">
 			    	<legend>Add a new GeoTag</legend>
 			    	<label for="latitude">Latitude&colon;</label>
-			    	<input type="text" id="latitude" name="latitude" placeholder="49.014070" value="49.014070" readonly>
+			    	<input type="text" id="latitude" name="latitude" placeholder="49.014070" readonly>
 			    	<label for="longitude">Longitude&colon;</label>
-			    	<input type="text" id="longitude" name="longitude" placeholder="8.40446" value="8.40446" readonly>
+			    	<input type="text" id="longitude" name="longitude" placeholder="8.40446" readonly>
 			    	<label for="name">Name&colon;</label>
 			    	<input
 			    		type="text"
@@ -69,8 +69,12 @@
 			    	<legend>Search</legend>
 			    	<label for="searchterm">Search term or keywords&colon;</label>
 			    	<input type="text" id="searchterm" name="searchterm" placeholder="e.g. Karlsruhe">
-			    	<input type="hidden" id="latitudeSearch" name="latitudeSearch" placeholder="49.014070" value="49.014070" readonly>
-			    	<input type="hidden" id="longitudeSearch" name="longitudeSearch" placeholder="8.40446" value="8.40446" readonly>
+            <% if (location.latitude !== undefined) { %>
+              <input type="hidden" id="latitudeSearch" name="latitudeSearch" value="<%= location.latitude %>" readonly>
+            <% } %>
+            <% if (location.longitude !== undefined) { %>
+              <input type="hidden" id="longitudeSearch" name="longitudeSearch" value="<%= location.longitude %>" readonly>
+            <% } %>
 			    	<input id="discovery-submit" type="submit" value="Search">
 			    </fieldset>
         </form>

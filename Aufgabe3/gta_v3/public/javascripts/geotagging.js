@@ -103,22 +103,32 @@ class MapManager {
  * It is called once the page has been fully loaded.
  */
 function updateLocation() {
-	// Set latitude and longitude value
-	LocationHelper.findLocation((location) => {
-		const latitude = document.getElementById("latitude");
-		const longitude = document.getElementById("longitude");
-		const latitudeSearch = document.getElementById("latitudeSearch");
-		const longitudeSearch = document.getElementById("longitudeSearch");
-		latitude.value = location.latitude;
-		longitude.value = location.longitude;
-		latitudeSearch.value = location.latitude;
-		longitudeSearch.value = location.longitude;
-		// Set map coordinates
-		const mapManager = new MapManager("wBgdLkzOFHqTwbkl2pF8NhPt5L0FupXY");
-		const mapUrl = mapManager.getMapUrl(location.latitude, location.longitude);
-		const mapView = document.getElementById("mapView");
-		mapView.src = mapUrl;
-	});
+	const latitude = document.getElementById("latitude");
+	const longitude = document.getElementById("longitude");
+	const latitudeSearch = document.getElementById("latitudeSearch");
+	const longitudeSearch = document.getElementById("longitudeSearch");
+	const mapManager = new MapManager("wBgdLkzOFHqTwbkl2pF8NhPt5L0FupXY");
+  let mapUrl = "";
+
+  console.log("latitudeSearch.value: ", latitudeSearch.value);
+  console.log("longitudeSearch.value: ", longitudeSearch.value);
+  if (latitudeSearch.value === "361" || longitudeSearch.value === "361") {
+	  LocationHelper.findLocation((location) => {
+	  	latitude.value = location.latitude;
+	  	longitude.value = location.longitude;
+	  	latitudeSearch.value = location.latitude;
+	  	longitudeSearch.value = location.longitude;
+	  	// Set map coordinates
+      console.log("location: ", location)
+	  	mapUrl = mapManager.getMapUrl(location.latitude, location.longitude);
+	  });
+  } else {
+    // Set map coordinates
+    mapUrl = mapManager.getMapUrl(latitude.value, longitude.value);
+  }
+	const mapView = document.getElementById("mapView");
+	mapView.src = mapUrl;
+  return { latitude, longitude };
 }
 
 
