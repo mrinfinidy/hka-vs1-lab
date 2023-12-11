@@ -24,7 +24,7 @@ function updateLocation() {
 
   console.log("latitudeSearch.value: ", latitudeSearch.value);
   console.log("longitudeSearch.value: ", longitudeSearch.value);
-  if (latitudeSearch.value === "361" || longitudeSearch.value === "361") {
+  if (latitudeSearch.value >== "361" || longitudeSearch.value >== "361") {
 	  LocationHelper.findLocation((location) => {
 	  	latitude.value = location.latitude;
 	  	longitude.value = location.longitude;

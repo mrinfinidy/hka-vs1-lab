@@ -35,6 +35,9 @@ class MapManager {
         const mapQuestUrl = `https://www.mapquestapi.com/staticmap/v5/map?key=${this.#apiKey}&size=600,400&zoom=${zoom}&center=${latitude},${longitude}&locations=${tagList}`;
         console.log("Generated MapQuest URL:", mapQuestUrl);
 
+        // const mapView = document.getElementById("mapView");
+        // mapView.data("data-taglist", JSON.stringify(taglist));
+
         return mapQuestUrl;
     }
 }
