@@ -141,7 +141,6 @@ input {
 
 /* ### TODO ### Styles for Tagging component */
 .main__tagging {
-  flex: 2;
   padding: 1rem;
   border: 0.1rem;
 }
@@ -181,7 +180,6 @@ input {
 
 /* ### TODO ### Styles for Discovery component */
 .main__discovery {
-  flex: 10;
   padding: 1rem;
   border: 0.1rem;
 }
