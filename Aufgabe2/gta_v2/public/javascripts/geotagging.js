@@ -126,7 +126,18 @@ function updateLocation() {
         longitudeTagging.value = location.longitude;
         latitudeDiscovery.value = location.latitude;
         longitudeDiscovery.value = location.longitude;
-    });
+
+        const mapManager = new MapManager();
+        mapManager.initMap(location.latitude, location.longitude);
+        mapManager.updateMarkers(location.latitude, location.longitude);
+
+        const map = document.getElementById("map")
+        const mapView = document.getElementById("mapView");
+        const mapDescription = document.getElementById("mapDescription");
+        console.log(map)
+        console.log(mapView)
+        console.log(mapDescription)
+    })
 }
 
 // Wait for the page to fully load its DOM content, then call updateLocation
