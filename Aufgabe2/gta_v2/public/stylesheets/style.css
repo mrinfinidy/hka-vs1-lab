@@ -259,6 +259,10 @@ input {
   background: #24273a;
 }
 
+#map {
+    height: 500px;
+}
+
 /* ### TODO ### Media Queries */
 @media only screen and (max-width: 875px) {
   .main {
