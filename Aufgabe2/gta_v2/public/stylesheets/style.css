@@ -260,7 +260,8 @@ input {
 }
 
 #map {
-    height: 500px;
+  height: 500px;
+  width: 500px;
 }
 
 /* ### TODO ### Media Queries */

@@ -137,6 +137,8 @@ function updateLocation() {
         console.log(map)
         console.log(mapView)
         console.log(mapDescription)
+        mapView.remove()
+        mapDescription.remove()
     })
 }
 
