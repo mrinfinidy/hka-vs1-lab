@@ -34,7 +34,7 @@ app.use(logger('dev'));
 
 // Set content processing
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 /**
  * VS1LAB:
@@ -43,6 +43,7 @@ app.use(express.urlencoded({ extended: false }));
  */
 
 // TODO: ... your code here ...
+app.use(express.static(path.join(__dirname, 'public')));
 
 // Set dedicated script for routing
 app.use('/', indexRouter);
@@ -62,4 +63,5 @@ app.use(function(err, req, res) {
     res.render('error');
   });
 
- module.exports = app;
+
+module.exports = app;

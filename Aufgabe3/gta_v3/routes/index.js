@@ -21,6 +21,7 @@ const router = express.Router();
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTag = require('../models/geotag');
+const GeoTagExamples = require('../models/geotag-examples');
 
 /**
  * The module "geotag-store" exports a class GeoTagStore. 
@@ -30,6 +31,9 @@ const GeoTag = require('../models/geotag');
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
+const geoTagStore = new GeoTagStore();
+const taglist = GeoTagExamples.tagList; geoTagStore.popluateGeotagStore(taglist);
+const location = { latitude: 361, longitude: 361 }
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -42,7 +46,7 @@ const GeoTagStore = require('../models/geotag-store');
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  res.render('index', { taglist: [] })
+  res.render('index', { location, taglist: geoTagStore.getGeotags() });
 });
 
 /**
@@ -61,6 +65,15 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.post('/tagging', (req, res) => {
+  const name = req.body.tagName;
+  const hashtag = req.body.hashtag;
+  const latitude = req.body.latitude;
+  const longitude = req.body.longitude;
+  const goetag = new GeoTag(name, latitude, longitude, hashtag);
+  geoTagStore.addGeoTag(goetag);
+  res.render('index', { location, taglist: geoTagStore.getGeotags() });
+});
 
 /**
  * Route '/discovery' for HTTP 'POST' requests.
@@ -79,5 +92,33 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
+router.post('/discovery', (req, res) => {
+  const keyword = req.body.searchterm;
+  const latitude = req.body.latitudeSearch;
+  const longitude = req.body.longitudeSearch
+  const location = { latitude: latitude, longitude: longitude };
+  const nearbyGeotags = geoTagStore.searchNearbyGeoTags(location, keyword);
+
+  const nearbyGeotagsNames = [];
+  const geotagsToRemove = [];
+  for (const geotag of nearbyGeotags) {
+    nearbyGeotagsNames.push(geotag.name);
+  }
+
+
+
+  for (const geotag of geoTagStore.getGeotags()) {
+    if(!nearbyGeotagsNames.includes(geotag.name)) {
+      geotagsToRemove.push(geotag.name);
+    }
+  }
+
+  for (const geotagName of geotagsToRemove) {
+    geoTagStore.removeGeoTag(geotagName);
+  }
+
+  console.log("location: ", location);
+  res.render('index', { location, taglist: geoTagStore.getGeotags() });
+});
 
 module.exports = router;
