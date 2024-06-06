@@ -17,7 +17,6 @@ const router = express.Router();
  * The module "geotag" exports a class GeoTagStore. 
  * It represents geotags.
  * 
- * TODO: implement the module in the file "../models/geotag.js"
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTag = require('../models/geotag');
@@ -27,12 +26,12 @@ const GeoTagExamples = require('../models/geotag-examples');
  * The module "geotag-store" exports a class GeoTagStore. 
  * It provides an in-memory store for geotag objects.
  * 
- * TODO: implement the module in the file "../models/geotag-store.js"
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTagStore = require('../models/geotag-store');
 const geoTagStore = new GeoTagStore();
-const taglist = GeoTagExamples.tagList; geoTagStore.popluateGeotagStore(taglist);
+const taglist = GeoTagExamples.tagList;
+geoTagStore.popluateGeotagStore(taglist);
 const location = { latitude: 361, longitude: 361 }
 
 /**

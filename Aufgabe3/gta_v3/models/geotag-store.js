@@ -1,7 +1,6 @@
 // File origin: VS1LAB A3
 const Geotag = require('./geotag');
 const GeoTagExamples = require('./geotag-examples');
-const GeotagExamples = require('./geotag-examples');
 
 /**
  * This script is a template for exercise VS1lab/Aufgabe3
