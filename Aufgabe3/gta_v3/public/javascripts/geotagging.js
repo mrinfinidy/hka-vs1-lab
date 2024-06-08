@@ -27,15 +27,11 @@ function updateLocation() {
         const mapManager = new MapManager();
         const map = document.getElementById("map")
         const taglist = JSON.parse(map.dataset.tags)
-        console.log(taglist)
         mapManager.initMap(location.latitude, location.longitude);
         mapManager.updateMarkers(location.latitude, location.longitude, taglist);
 
         const mapView = document.getElementById("mapView");
         const mapDescription = document.getElementById("mapDescription");
-        console.log(map)
-        console.log(mapView)
-        console.log(mapDescription)
         mapView.remove()
         mapDescription.remove()
     })
@@ -45,7 +41,8 @@ function updateLocation() {
 document.addEventListener("DOMContentLoaded", () => {
   const latitude = document.getElementById("latitude").value;
   const longitude = document.getElementById("longitude").value;
-  console.log(latitude);
+  console.log("latitude: " + latitude);
+  console.log("longitude: " + longitude);
   if (latitude === "361" || longitude === "361") {
     console.log("updating location via location api");
     updateLocation();

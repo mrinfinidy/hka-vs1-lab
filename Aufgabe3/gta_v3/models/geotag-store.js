@@ -34,6 +34,7 @@ class InMemoryGeoTagStore{
   }
 
   addGeoTag(geotag) {
+    console.log("storing geotag: ", geotag)
     this.getGeotags().push(geotag);
   }
 
@@ -70,9 +71,9 @@ class InMemoryGeoTagStore{
     return nearbyGeotags;
   }
 
-  popluateGeotagStore(taglist) {
-    // const taglist = GeoTagExamples.tagList;
+  populateGeotagStore(taglist) {
     for (const tag of taglist) {
+      console.log("tag: ", tag)
       const geotag = new Geotag(tag[0], tag[1], tag[2], tag[3]);
       this.addGeoTag(geotag);
     }

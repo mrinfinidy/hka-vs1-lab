@@ -37,13 +37,14 @@
 			    <fieldset class="tag-fieldset">
 			    	<legend>Add a new GeoTag</legend>
 			    	<label for="latitude">Latitude&colon;</label>
-			    	<input type="text" id="latitude" placeholder="<%= location.latitude %>" value="<%= location.latitude %>" readonly>
+			    	<input type="text" id="latitude" name="latitude" placeholder="<%= location.latitude %>" value="<%= location.latitude %>" readonly>
 			    	<label for="longitude">Longitude&colon;</label>
-			    	<input type="text" id="longitude" placeholder="<%= location.longitude %>" value="<%= location.longitude %>" readonly>
+			    	<input type="text" id="longitude" name="longitude" placeholder="<%= location.longitude %>" value="<%= location.longitude %>" readonly>
 			    	<label for="name">Name&colon;</label>
 			    	<input
 			    		type="text"
 			    		id="name"
+              name="tagname"
 			    		pattern="[A-Za-z]{1,10}"
 			    		placeholder="e.g. Karlsruhe"
 			    		required
@@ -52,6 +53,7 @@
 			    	<input 
 			    		type="text"
 			    		id="hashtag"
+              name="hashtag"
 			    		pattern="#[A-Za-z]{1,10}"
 			    		title="Hashtag must start with &apos;#&apos; followed by max. 10 letters"
 			    		placeholder="e.g. #Ka"
@@ -69,9 +71,9 @@
 			    <fieldset class="discovery-fieldset">
 			    	<legend>Search</legend>
 			    	<label for="searchterm">Search term or keywords&colon;</label>
-			    	<input type="text" id="searchterm" placeholder="e.g. Karlsruhe">
-			    	<input type="hidden" id="latitudeSearch" placeholder="<%= location.latitude %>" readonly>
-			    	<input type="hidden" id="longitudeSearch" placeholder="<%= location.longitude %>" readonly>
+			    	<input type="text" id="searchterm" name="searchterm" placeholder="e.g. Karlsruhe">
+			    	<input type="hidden" id="latitudeSearch" name="latitudeSearch" placeholder="<%= location.latitude %>" readonly>
+			    	<input type="hidden" id="longitudeSearch" name="longitudeSearch" placeholder="<%= location.longitude %>" readonly>
 			    	<input id="discovery-submit" type="submit" value="Search">
 			    </fieldset>
         </form>

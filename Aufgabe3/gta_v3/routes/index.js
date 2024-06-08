@@ -31,7 +31,7 @@ const GeoTagExamples = require('../models/geotag-examples');
 const GeoTagStore = require('../models/geotag-store');
 const geoTagStore = new GeoTagStore();
 const taglist = GeoTagExamples.tagList;
-geoTagStore.popluateGeotagStore(taglist);
+geoTagStore.populateGeotagStore(taglist);
 const location = { latitude: 361, longitude: 361 }
 
 /**
@@ -65,7 +65,7 @@ router.get('/', (req, res) => {
 
 // TODO: ... your code here ...
 router.post('/tagging', (req, res) => {
-  const name = req.body.tagName;
+  const name = req.body.tagname;
   const hashtag = req.body.hashtag;
   const latitude = req.body.latitude;
   const longitude = req.body.longitude;
