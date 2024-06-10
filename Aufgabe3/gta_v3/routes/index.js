@@ -71,6 +71,7 @@ router.post('/tagging', (req, res) => {
   const longitude = req.body.longitude;
   const goetag = new GeoTag(name, latitude, longitude, hashtag);
   geoTagStore.addGeoTag(goetag);
+  const location = { latitude: latitude, longitude: longitude };
   res.render('index', { location, taglist: geoTagStore.getGeotags() });
 });
 

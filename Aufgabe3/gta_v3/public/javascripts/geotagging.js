@@ -15,20 +15,19 @@ console.log("The geoTagging script is going to start...");
  */
 function updateLocation() {
     LocationHelper.findLocation((location) => {
-        const latitudeTagging = document.getElementById("latitude")
-        const longitudeTagging = document.getElementById("longitude")
-        const latitudeDiscovery = document.getElementById("latitudeSearch")
-        const longitudeDiscovery = document.getElementById("longitudeSearch")
-        latitudeTagging.value = location.latitude;
-        longitudeTagging.value = location.longitude;
-        latitudeDiscovery.value = location.latitude;
-        longitudeDiscovery.value = location.longitude;
-
         initMap(location.latitude, location.longitude)
     })
 }
 
 function initMap(latitude, longitude) {
+  const latitudeTagging = document.getElementById("latitude")
+  const longitudeTagging = document.getElementById("longitude")
+  const latitudeDiscovery = document.getElementById("latitudeSearch")
+  const longitudeDiscovery = document.getElementById("longitudeSearch")
+  latitudeTagging.value = latitude;
+  longitudeTagging.value = longitude;
+  latitudeDiscovery.value = latitude;
+  longitudeDiscovery.value = longitude;
   const mapManager = new MapManager();
   const map = document.getElementById("map")
   const taglist = JSON.parse(map.dataset.tags)
