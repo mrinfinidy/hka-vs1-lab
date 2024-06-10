@@ -24,17 +24,21 @@ function updateLocation() {
         latitudeDiscovery.value = location.latitude;
         longitudeDiscovery.value = location.longitude;
 
-        const mapManager = new MapManager();
-        const map = document.getElementById("map")
-        const taglist = JSON.parse(map.dataset.tags)
-        mapManager.initMap(location.latitude, location.longitude);
-        mapManager.updateMarkers(location.latitude, location.longitude, taglist);
-
-        const mapView = document.getElementById("mapView");
-        const mapDescription = document.getElementById("mapDescription");
-        mapView.remove()
-        mapDescription.remove()
+        initMap(location.latitude, location.longitude)
     })
+}
+
+function initMap(latitude, longitude) {
+  const mapManager = new MapManager();
+  const map = document.getElementById("map")
+  const taglist = JSON.parse(map.dataset.tags)
+  mapManager.initMap(latitude, longitude);
+  mapManager.updateMarkers(latitude, longitude, taglist);
+  
+  const mapView = document.getElementById("mapView");
+  const mapDescription = document.getElementById("mapDescription");
+  mapView.remove()
+  mapDescription.remove()
 }
 
 // Wait for the page to fully load its DOM content, then call updateLocation
@@ -46,5 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (latitude === "361" || longitude === "361") {
     console.log("updating location via location api");
     updateLocation();
+  } else {
+    initMap(latitude, longitude)
   }
 });
