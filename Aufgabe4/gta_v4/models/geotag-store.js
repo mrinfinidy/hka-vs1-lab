@@ -27,22 +27,37 @@ const GeoTagExamples = require('./geotag-examples');
  */
 class InMemoryGeoTagStore{
   constructor() {
-    const geotags = [];
+    this.geotags = {};
+    this.geotag_id_counter = 0;
     this.getGeotags = () => {
-      return geotags;
+      return Object.values(this.geotags);
     }
   }
 
   addGeoTag(geotag) {
-    console.log("storing geotag: ", geotag)
-    this.getGeotags().push(geotag);
+    this.geotags[this.geotag_id_counter] = geotag;
+    this.geotag_id_counter += 1;
+    return this.geotag_id_counter - 1;
+  }
+
+  removeGeoTagById(id) {
+    delete this.geotags[id];
   }
 
   removeGeoTag(geotagName) {
-    const indexToRemove = this.getGeotags().findIndex(geotag => geotag.name === geotagName);
-    if (indexToRemove !== -1) {
-      this.getGeotags().splice(indexToRemove, 1);
+    const id_to_remove = -1;
+    for (const [key, value] of Object.entries(object)) {
+      if (value === geotagName) {
+        id_to_remove = key;
+      }
     }
+    if (id_to_remove !== -1) {
+      this.removeGeoTagById(id_to_remove);
+    }
+  }
+
+  getGeoTagById(id) {
+    return this.geotags[id];
   }
 
   getNearbyGeoTags(location) {
@@ -71,9 +86,20 @@ class InMemoryGeoTagStore{
     return nearbyGeotags;
   }
 
+  searchGeoTags(keyword) {
+    const filtered_geotags = [];
+    const geotags = this.getGeotags();
+    for (const geotag of geotags) {
+      if (geotag.name.includes(keyword) || geotag.hashtag.includes(keyword)) {
+        filtered_geotags.push(geotag);
+      }
+    }
+
+    return filtered_geotags;
+  }
+
   populateGeotagStore(taglist) {
     for (const tag of taglist) {
-      console.log("tag: ", tag)
       const geotag = new Geotag(tag[0], tag[1], tag[2], tag[3]);
       this.addGeoTag(geotag);
     }
