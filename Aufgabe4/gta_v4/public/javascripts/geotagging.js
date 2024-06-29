@@ -41,9 +41,14 @@ function initMap(latitude, longitude) {
 }
 
 function update_taglist(taglist) {
-  latitude = document.getElementById("latitude")
-  longitude = document.getElementById("longitude")
+  latitude = document.getElementById("latitude").value;
+  longitude = document.getElementById("longitude").value;
   mapManager.updateMarkers(latitude, longitude, taglist);
+  const result_list = document.getElementById('discoveryResults');
+  result_list.innerHTML = '';
+  for (const tag of taglist) {
+    result_list.insertAdjacentHTML('beforeend',"<li>"+tag.name+" ( "+tag.latitude+","+tag.longitude+" ) "+tag.hashtag+" </li>");
+  }
 }
 
 // tagging event listener
@@ -60,7 +65,7 @@ form.addEventListener('submit', async event => {
 
   console.log(geotag);
 
-  const res = await fetch(
+  let res = await fetch(
     '/api/geotags',
     {
       method: 'POST',
@@ -68,6 +73,17 @@ form.addEventListener('submit', async event => {
       headers: new Headers({'content-type': 'application/json'}),
     },
   );
+
+  res = await fetch(
+    '/api/geotags',
+    {
+      method: 'GET',
+    },
+  );
+  console.log(res);
+  const json_res = await res.json();
+  console.log(json_res);
+  update_taglist(json_res);
 });
 
 // tagging event listener
@@ -95,7 +111,9 @@ discovery_form.addEventListener('submit', async event => {
     },
   );
   console.log(res);
-  update_taglist(await res.json());
+  const json_res = await res.json();
+  console.log(json_res);
+  update_taglist(json_res);
 });
 
 
