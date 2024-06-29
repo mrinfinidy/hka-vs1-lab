@@ -8,6 +8,7 @@
 // The console window must be opened explicitly in the browser.
 // Try to find this output in the browser...
 console.log("The geoTagging script is going to start...");
+const mapManager = new MapManager();
 
 /**
  * A function to retrieve the current location and update the page.
@@ -28,17 +29,76 @@ function initMap(latitude, longitude) {
   longitudeTagging.value = longitude;
   latitudeDiscovery.value = latitude;
   longitudeDiscovery.value = longitude;
-  const mapManager = new MapManager();
   const map = document.getElementById("map")
   const taglist = JSON.parse(map.dataset.tags)
   mapManager.initMap(latitude, longitude);
-  mapManager.updateMarkers(latitude, longitude, taglist);
+  // mapManager.updateMarkers(latitude, longitude, taglist);
   
   const mapView = document.getElementById("mapView");
   const mapDescription = document.getElementById("mapDescription");
   mapView.remove()
   mapDescription.remove()
 }
+
+function update_taglist(taglist) {
+  latitude = document.getElementById("latitude")
+  longitude = document.getElementById("longitude")
+  mapManager.updateMarkers(latitude, longitude, taglist);
+}
+
+// tagging event listener
+const form = document.getElementById('tag-form');
+form.addEventListener('submit', async event => {
+  event.preventDefault();
+
+  geotag = {
+    name: document.getElementById('name').value,
+    hashtag: document.getElementById('hashtag').value,
+    latitude: document.getElementById('latitude').value,
+    longitude: document.getElementById('longitude').value,
+  }
+
+  console.log(geotag);
+
+  const res = await fetch(
+    '/api/geotags',
+    {
+      method: 'POST',
+      body: JSON.stringify(geotag),
+      headers: new Headers({'content-type': 'application/json'}),
+    },
+  );
+});
+
+// tagging event listener
+const discovery_form = document.getElementById('discoveryFilterForm');
+discovery_form.addEventListener('submit', async event => {
+  event.preventDefault();
+
+  geotag = {
+    name: document.getElementById('name').value,
+    hashtag: document.getElementById('hashtag').value,
+    latitude: document.getElementById('latitude').value,
+    longitude: document.getElementById('longitude').value,
+  }
+
+  console.log(geotag);
+
+  const res = await fetch(
+    '/api/geotags?'+ new URLSearchParams({
+      searchterm: document.getElementById('searchterm').value,
+      latitude: document.getElementById('latitudeSearch').value,
+      longitude: document.getElementById('longitudeSearch').value,
+    }).toString(),
+    {
+      method: 'GET',
+    },
+  );
+  console.log(res);
+  update_taglist(await res.json());
+});
+
+
 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
