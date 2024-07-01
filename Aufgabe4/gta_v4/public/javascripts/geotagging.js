@@ -32,7 +32,7 @@ function initMap(latitude, longitude) {
   const map = document.getElementById("map")
   const taglist = JSON.parse(map.dataset.tags)
   mapManager.initMap(latitude, longitude);
-  // mapManager.updateMarkers(latitude, longitude, taglist);
+  mapManager.updateMarkers(latitude, longitude, taglist);
   
   const mapView = document.getElementById("mapView");
   const mapDescription = document.getElementById("mapDescription");
